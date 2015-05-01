@@ -1,14 +1,57 @@
 options:
-  string-option:
+
+  deployment:
     type: string
-    default: "Default Value"
-    description: "A short description of the configuration option"
-  boolean-option:
-    type: boolean
-    default: False
-    description: "A short description of the configuration option"
-  int-option:
+    description: development, staging or production
+    default: production
+
+  source_ppa:
+    type: string
+    default: "ppa:hockeypuck/unstable"
+    description: PPA repository to install Hockeypuck from.
+
+  app_path:
+    type: string
+    default: /srv
+    description: Base directory location for service configuration & log files.
+
+  hkp_port:
     type: int
-    default: 9001
-    description: "A short description of the configuration option"
+    default: 11371
+    description: <
+        Listen port for HTTP Keyserver Protocol (HKP) requests.
+
+  recon_port:
+    type: int
+    default: 11370
+    description: Listen port for recon gossip protocol.
+
+  recon_allow_cidrs:
+    type: string
+    default: ""
+    description: <
+        Comma-separated list of CIDRs to allow gossip peers to connect from.
+        For example, 10.0.0.0/8,192.168.0.0/16,163.15.34.10/32
+
+  recon_gossip_interval:
+    type: int
+    default: 60
+    description: <
+        Maximum time to wait between gossip connection attempts to peers.
+        The actual delay is randomized.
+
+  recon_partners:
+    type: string
+    default: "[]"
+    description: |
+        String containing YAML, a list of maps following the form:
+            - http: <host>:<port>
+              recon: <host>:<port>
+            - http: <host>:<port>
+              recon: <host>:<port>
+
+  log_level:
+    type: string
+    description: "Log level, one of: debug, info, warning, error, fatal, panic"
+    default: INFO
 

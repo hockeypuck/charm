@@ -7,8 +7,18 @@ import charmhelpers.contrib.ansible
 # handled by default by running all sections of the playbook
 # tagged with the hook name.
 hooks = charmhelpers.contrib.ansible.AnsibleHooks(
-    playbook_path='playbooks/site.yaml',
-    default_hooks=['start', 'stop', 'config-changed'])
+    playbook_path='playbook.yaml',
+    default_hooks=[
+		'start', 'stop', 'config-changed',
+		'upgrade-charm',
+		'gossip-client-relation-changed',
+		'gossip-service-relation-changed',
+
+		# Actions
+		'fetch-keyfiles',
+		'load-keyfiles',
+		#'dump-keyfiles',
+	])
 
 
 @hooks.hook()

@@ -1,0 +1,61 @@
+- hosts: all
+  tasks:
+
+    - vars:
+        app_name: hockeypuck
+        hostdir: /srv/{{ app_name }}
+        basedir: {{ hostdir }}/{{ deployment }}
+        log_dir: {{ basedir }}/log
+        conf_dir: {{ basedir }}/etc
+
+    - name: Install prereqs to install from PPA source repos
+      apt: pkg={{ item }} state=latest update_cache=yes
+      with_items:
+        - python-pycurl
+        - apt-transport-https
+        - software-properties-common
+      tags:
+        - install
+
+    - name: Add installation source repo
+      apt_repository: repo={{ source_repo }} state=present
+      tags:
+        - install
+        - upgrade-charm
+
+    - name: Install required packages
+      apt: pkg=hockeypuck state=latest update_cache=yes
+      tags:
+        - install
+        - upgrade-charm
+
+    - name: Configure upstart job
+      template: src=templates/upstart.j2 dest=/etc/init/hockeypuck.conf
+      tags:
+        - config-changed
+
+    - name: Configure Hockeypuck
+      template: src=templates/hockeypuck.conf.j2 dest={{ conf_dir }}/hockeypuck.conf
+      tags:
+        - config-changed
+        - gossip-client-relation-changed
+        - gossip-service-relation-changed
+
+    - name: Website relation
+      shell: relation-set -r {{ relations.website.__relid__ }} host={{ unit_private_address }} port={{ hkp_port }}
+      tags:
+        - website-relation-changed
+        - config-changed
+
+    - name: Restart service
+      service: name=hockeypuck state=restarted
+      tags:
+        - start
+        - config-changed
+        - upgrade-charm
+
+    - name: Stop service
+      service: name=hockeypuck state=stopped
+      tags:
+        - stop
+

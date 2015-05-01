@@ -1,0 +1,29 @@
+fetch-keyfiles:
+    description: Fetch PGP key files from a network location and uncompress them.
+    params:
+        src:
+            type: string
+            description: |
+                Network location of key files to fetch. Supported protocols:
+                rsync://, http://, ftp://
+        dest:
+            type: string
+            default: /srv/hockeypuck/import
+            description: Directory where downloaded key files will be stored.
+
+load-keyfiles:
+    description: Load keys from PGP key files into Hockeypuck server.
+    params:
+        path:
+            type: string
+            default: /srv/hockeypuck/import
+            description: Directory where downloaded key files will be loaded from.
+
+dump-keyfiles:
+    description: Dump keys from Hockeypuck server to PGP key files.
+    params:
+        path:
+            type: string
+            default: /srv/hockeypuck/export
+            description: Directory where key files will be created.
+
