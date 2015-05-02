@@ -11,7 +11,8 @@ hooks = charmhelpers.contrib.ansible.AnsibleHooks(
     default_hooks=[
         'start', 'stop', 'config-changed',
         'upgrade-charm',
-                'mongodb-relation-changed',
+        'mongodb-relation-changed',
+        'website-relation-changed',
 
         # Actions
         'fetch-keyfiles',
