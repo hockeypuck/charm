@@ -12,10 +12,10 @@ if [ -z "$DEST" ]; then
 	exit 0
 fi
 
-if [[ "$SRC" = "rsync://*" ]]; then
-	action-set started-at=$(date)
+mkdir -p ${DEST}
+
+if [[ "$SRC" =~ "rsync://" ]]; then
 	rsync -avr ${SRC}/ ${DEST}/
-	action-set completed-at=$(date)
 else
 	action-fail "URL scheme $SRC not supported."
 fi

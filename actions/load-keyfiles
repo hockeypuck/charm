@@ -15,13 +15,13 @@ DEPLOYMENT=$(config-get deployment)
 CONF_PATH=/srv/hockeypuck/${DEPLOYMENT}/etc/hockeypuck.conf
 LOG_FILE=/srv/hockeypuck/${DEPLOYMENT}/log/load-$(date +%Y%m%d%H%M%S).log
 
+service hockeypuck stop || true
+
 action-set log-file=$LOG_FILE
-action-set started-at=$(date)
 su - hockeypuck -c "hockeypuck-load -config ${CONF_PATH} $LOAD_PATH/\* 2>&1 >$LOGFILE"
 if [ "$?" != "0" ]; then
 	action-fail "hockeypuck-load had errors, check the log for details."
-	action-set exited-at=$(date)
-else
-	action-set completed-at=$(date)
 fi
+
+service hockeypuck start || true
 
