@@ -9,16 +9,15 @@ import charmhelpers.contrib.ansible
 hooks = charmhelpers.contrib.ansible.AnsibleHooks(
     playbook_path='playbook.yaml',
     default_hooks=[
-		'start', 'stop', 'config-changed',
-		'upgrade-charm',
-		'gossip-client-relation-changed',
-		'gossip-service-relation-changed',
+        'start', 'stop', 'config-changed',
+        'upgrade-charm',
+                'mongodb-relation-changed',
 
-		# Actions
-		'fetch-keyfiles',
-		'load-keyfiles',
-		#'dump-keyfiles',
-	])
+        # Actions
+        'fetch-keyfiles',
+        'load-keyfiles',
+        #'dump-keyfiles',
+    ])
 
 
 @hooks.hook()

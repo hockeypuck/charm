@@ -5,7 +5,7 @@ options:
     description: development, staging or production
     default: production
 
-  source_ppa:
+  source_repo:
     type: string
     default: "ppa:hockeypuck/unstable"
     description: PPA repository to install Hockeypuck from.

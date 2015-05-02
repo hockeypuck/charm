@@ -1,4 +1,4 @@
-name: Hockeypuck
+name: hockeypuck
 summary: OpenPGP public keyserver
 maintainer: Casey Marshall <cmars@cmarstech.com>
 description: |
@@ -11,8 +11,6 @@ subordinate: false
 provides:
   website:
     interface: http
-  gossip-client:
-    interface: recon
 requires:
-  gossip-service:
-    interface: recon
+  mongodb:
+    interface: mongodb

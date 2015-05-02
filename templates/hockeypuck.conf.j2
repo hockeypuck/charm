@@ -1,0 +1,33 @@
+[hockeypuck]
+logfile="{{ log_dir }}/hockeypuck.log"
+loglevel="{{ log_level }}"
+webroot="/var/lib/hockeypuck/www"
+indexTemplate="/var/lib/hockeypuck/templates/index.html.tmpl"
+vindexTemplate="/var/lib/hockeypuck/templates/index.html.tmpl"
+statsTemplate="/var/lib/hockeypuck/templates/stats.html.tmpl"
+
+[hockeypuck.hkp]
+bind=":{{ hkp_port }}"
+
+{% if relations["mongodb"] and relations["mongodb"][0] %}
+{% set mongodb_hostname = relations["mongodb"][0]["hostname"]|default("") %}
+{% set mongodb_port = relations["mongodb"][0]["port"]|default("") %}
+{% if mongodb_hostname and mongodb_port %}
+[hockeypuck.openpgp.db]
+driver="mongo"
+dsn="{{ mongodb_hostname }}:{{ mongodb_port }}"
+
+[hockeypuck.openpgp.db.mongo]
+db="hockeypuck"
+{% endif %}{% endif %}
+
+[hockeypuck.conflux.recon]
+httpAddr=":{{ hkp_port }}"
+reconAddr=":{{ recon_port }}"
+{% set cidr_comma = joiner(",") %}
+allowCIDRs=[{% for cidr in recon_allow_cidrs.split(',') %}{{ cidr_comma() }}{% if cidr %}"{{cidr}}"{% endif %}{% endfor %}]
+gossipIntervalSecs={{ recon_gossip_interval }}
+
+[hockeypuck.conflux.recon.leveldb]
+path="{{ host_dir }}/ptree"
+
