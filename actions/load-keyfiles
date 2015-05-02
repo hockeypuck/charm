@@ -18,7 +18,7 @@ LOG_FILE=/srv/hockeypuck/${DEPLOYMENT}/log/load-$(date +%Y%m%d%H%M%S).log
 service hockeypuck stop || true
 
 action-set log-file=$LOG_FILE
-su - hockeypuck -c "hockeypuck-load -config ${CONF_PATH} $LOAD_PATH/\* 2>&1 >$LOGFILE"
+su - hockeypuck -c "hockeypuck-load -config ${CONF_PATH} $LOAD_PATH/\*" 2>&1 >$LOG_FILE
 if [ "$?" != "0" ]; then
 	action-fail "hockeypuck-load had errors, check the log for details."
 fi
