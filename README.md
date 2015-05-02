@@ -1,74 +1,54 @@
-charm-bootstrap-ansible
-=======================
+# Deploying Hockeypuck with Juju
 
-A quick way to get started creating a [juju][1] charm using
-[ansible][2].
+## Prerequisites
 
-Disclaimer: this template does not try to explain what's possible with
-either ansible or juju - but if you know a bit about both, it will
-show you how you can easily use them together.
-
-Make sure you have both git and bzr installed and then:
+Juju 1.23.2 or later is recommended to make full use of this charm's [juju
+actions](https://jujucharms.com/docs/stable/actions). Install juju with:
 
 ```
-$ mkdir -p charms/precise && cd charms/precise
-$ git clone https://github.com/absoludity/charm-bootstrap-ansible.git mycharm
-$ cd mycharm
-$ make
+sudo apt-add-repository ppa:juju/stable
+sudo apt-get update
+sudo apt-get install juju-core
 ```
 
-That will pull in the required charm-helpers library and run the unit-tests.
-Take a look around at the hooks/hooks.py or the playbooks/site.yaml,
-or deploy it with:
+Also `apt-get install juju-local` if you'd like to use the local provider.
+
+Familiarity with Juju and a bootstrapped environment is assumed. Read the [Juju
+Documentation](https://jujucharms.com/docs/) to get started.
+
+## Deploying Hockeypuck
+
+Deploy a Hockeypuck service:
+
+`juju deploy cs:~hockeypuck/trusty/hockeypuck`
+
+Deploy MongoDB and relate it:
 
 ```
-$ juju deploy --repository=../.. local:charm-bootstrap-ansible
+juju deploy mongodb
+juju add-relation mongodb hockeypuck
 ```
 
-If you'd like to explore what's happening when the hooks run,
-once juju status tells you that the services has 'started', you can
-open another terminal up and run
+## HTTP reverse-proxy
+
+Expose Hockeypuck on port 80 behind haproxy.
 
 ```
-$ juju debug-hooks charm-bootstrap-ansible/0
+juju deploy haproxy
+juju add-relation hockeypuck:website haproxy:reverseproxy
+juju expose haproxy
 ```
 
-Back in your original terminal, let's change one of the config
-options (defined in the config.yaml):
+Or behind squid for caching.
 
 ```
-$ juju set charm-bootstrap-ansible string-option="Hi there"
+juju deploy squid-reverseproxy
+juju add-relation hockeypuck:website squid-reverseproxy
+juju set squid-reverseproxy port=11371
+juju expose squid
 ```
 
-Back in your debug-hooks terminal, you'll see the prompt
-has changed to let you know it's ready to run the config-changed
-hook. Run the hook to see what it does with:
+## TODOs
+TODO: using the actions
+TODO: peering relations
 
-```
-$ hooks/config-changed
-```
-
-You'll see the output of ansible running all the tasks tagged with
-'config-changed', including a debug message with the value of
-the config option that you changed. Just 'exit' to let juju know
-the hook execution has finished.
-
-Have fun exploring the possibilities of ansible and juju!
-
-### Note about Dependencies
-The makefile to run tests requires the following dependencies
-
-- python-nose
-- python-mock
-- python-flake8
-- python-yaml
-- bzr
-
-installable via: 
-
-```
-$ sudo apt-get install bzr python-yaml python-nose python-mock python-flake8
-```
-
-[1]: http://juju.ubuntu.com/
-[2]: http://ansibleworks.com/
