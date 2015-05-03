@@ -16,6 +16,9 @@ mkdir -p ${DEST}
 
 if [[ "$SRC" =~ "rsync://" ]]; then
 	rsync -avr ${SRC}/ ${DEST}/
+elif [[ "$SRC" =~ "http://" || "$SRC" =~ "ftp://" ]]; then
+	cd ${DEST}
+	wget -e robots=off --wait 0.25 -nH --cut-dirs=100 -r ${SRC}
 else
 	action-fail "URL scheme $SRC not supported."
 fi
