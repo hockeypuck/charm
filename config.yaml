@@ -18,7 +18,7 @@ options:
   hkp_port:
     type: int
     default: 11371
-    description: <
+    description: >
         Listen port for HTTP Keyserver Protocol (HKP) requests.
 
   recon_port:
@@ -29,14 +29,14 @@ options:
   recon_allow_cidrs:
     type: string
     default: ""
-    description: <
+    description: >
         Comma-separated list of CIDRs to allow gossip peers to connect from.
         For example, 10.0.0.0/8,192.168.0.0/16,163.15.34.10/32
 
   recon_gossip_interval:
     type: int
     default: 60
-    description: <
+    description: >
         Maximum time to wait between gossip connection attempts to peers.
         The actual delay is randomized.
 
