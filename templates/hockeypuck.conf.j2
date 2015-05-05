@@ -31,3 +31,17 @@ gossipIntervalSecs={{ recon_gossip_interval }}
 [hockeypuck.conflux.recon.leveldb]
 path="{{ host_dir }}/ptree"
 
+{% if relations["keymaster"] %}{% for keymaster in relations["keymaster"]|default([]) %}{% if keymaster["http_addr"]|default("") and keymaster["recon_addr"]|default("") %}
+[hockeypuck.conflux.recon.partner.keymaster{{ loop.index }}]
+httpAddr="{{ keymaster.http_addr }}"
+reconAddr="{{ keymaster.recon_addr }}"
+
+{% endif %}{% endfor %}{% endif %}
+
+{% if relations["gatekeeper"] %}{% for gatekeeper in relations["gatekeeper"]|default([]) %}{% if gatekeeper["http_addr"]|default("") and gatekeeper["recon_addr"]|default("") %}
+[hockeypuck.conflux.recon.partner.gatekeeper{{ loop.index }}]
+httpAddr="{{ gatekeeper.http_addr }}"
+reconAddr="{{ gatekeeper.recon_addr }}"
+
+{% endif %}{% endfor %}{% endif %}
+

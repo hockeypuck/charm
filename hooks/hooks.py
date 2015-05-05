@@ -13,6 +13,8 @@ hooks = charmhelpers.contrib.ansible.AnsibleHooks(
         'upgrade-charm',
         'mongodb-relation-changed',
         'website-relation-changed',
+        'keymaster-relation-changed',
+        'gatekeeper-relation-changed',
 
         # Actions
         'fetch-keyfiles',

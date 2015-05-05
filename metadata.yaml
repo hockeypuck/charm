@@ -11,6 +11,10 @@ subordinate: false
 provides:
   website:
     interface: http
+  keymaster:
+    interface: recon
 requires:
   mongodb:
     interface: mongodb
+  gatekeeper:
+    interface: recon

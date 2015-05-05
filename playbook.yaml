@@ -49,18 +49,38 @@
       tags:
         - config-changed
 
-    - name: Configure Hockeypuck
-      template: src=templates/hockeypuck.conf.j2 dest={{ conf_dir }}/hockeypuck.conf
-      tags:
-        - config-changed
-        - mongodb-relation-changed
-
     - name: Website relation
       shell: relation-set -r {{ item.__relid__ }} host={{ unit_private_address }} port={{ hkp_port }}
       tags:
         - website-relation-changed
         - config-changed
       with_items: relations.website
+
+    - name: Keymaster relations
+      shell: >
+        relation-set -r {{ item.__relid__ }}
+            recon_addr={{ unit_private_address }}:{{ recon_port }}
+            http_addr={{ unit_private_address }}:{{ hkp_port }}
+      tags:
+        - keymaster-relation-changed
+      with_items: relations.keymaster
+
+    - name: Gatekeeper relations
+      shell: >
+        relation-set -r {{ item.__relid__ }}
+            recon_addr={{ unit_private_address }}:{{ recon_port }}
+            http_addr={{ unit_private_address }}:{{ hkp_port }}
+      tags:
+        - gatekeeper-relation-changed
+      with_items: relations.gatekeeper
+
+    - name: Configure Hockeypuck
+      template: src=templates/hockeypuck.conf.j2 dest={{ conf_dir }}/hockeypuck.conf
+      tags:
+        - config-changed
+        - mongodb-relation-changed
+        - keymaster-relation-changed
+        - gatekeeper-relation-changed
 
     - name: Restart service
       service: name=hockeypuck state=restarted
