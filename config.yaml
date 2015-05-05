@@ -42,13 +42,11 @@ options:
 
   recon_partners:
     type: string
-    default: "[]"
-    description: |
-        String containing YAML, a list of maps following the form:
-            - http: <host>:<port>
-              recon: <host>:<port>
-            - http: <host>:<port>
-              recon: <host>:<port>
+    default: ""
+    description: >
+        Space-separated list of extra gossip peers, each of which defined by a
+        comma-separated pair of <http host:port>,<recon host:port> addresses. For example,
+        "10.0.0.2:11371,10.0.0.2:11370 keys.load-balanced.org:11371,163.71.23.24:11370"
 
   log_level:
     type: string

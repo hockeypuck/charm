@@ -45,3 +45,14 @@ reconAddr="{{ gatekeeper.recon_addr }}"
 
 {% endif %}{% endfor %}{% endif %}
 
+{% for peer in recon_partners.split(' ') %}{% if peer|default("") %}
+{% set peer_pair = peer.split(",") %}
+{% set peer_http_addr = peer_pair[0] %}
+{% set peer_recon_addr = peer_pair[1] %}
+{% if peer_http_addr|default("") and peer_recon_addr|default("") %}
+[hockeypuck.conflux.recon.partner.peer{{ loop.index }}]
+httpAddr="{{ peer_http_addr }}"
+reconAddr="{{ peer_recon_addr }}"
+
+{% endif %}{% endif %}{% endfor %}
+
