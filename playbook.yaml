@@ -89,6 +89,8 @@
         - config-changed
         - upgrade-charm
         - mongodb-relation-changed
+        - keymaster-relation-changed
+        - gatekeeper-relation-changed
 
     - name: Expose service
       shell: open-port {{ item }}
