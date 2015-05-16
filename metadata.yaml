@@ -2,7 +2,9 @@ name: hockeypuck
 summary: OpenPGP public keyserver
 maintainer: Casey Marshall <cmars@cmarstech.com>
 description: |
-  <Multi-line description here>
+  Hockeypuck is an OpenPGP public keyserver, implementing the HKP draft
+  protocol specification, as well as several extensions to the protocol supported
+  by SKS. Project homepage: https://hockeypuck.github.io/
 tags:
   - keyserver
   - security
