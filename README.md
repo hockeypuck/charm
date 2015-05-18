@@ -1,3 +1,8 @@
+# Project Docs
+
+Refer to the [Hockeypuck project website](https://hockeypuck.github.io/) for
+general information about the workload deployed by this charm.
+
 # Deploying Hockeypuck with Juju
 
 ## Prerequisites
