@@ -119,12 +119,3 @@ Note that you can specify a different host for the HTTP and recon addresses.
 This supports connecting to peers that expose these ports on different host
 addresses.
 
-# Example
-
-<img src="juju-env.png" width="960"></img>
-_juju-gui screenshot from a Hockeypuck deployment: two synchronizing Hockeypuck peers, using MongoDB for storage, reverse-proxied by haproxy._
-
-Deploy it with this bundle:
-
-<bundles.yaml>
-
